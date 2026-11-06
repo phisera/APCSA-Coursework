@@ -49,7 +49,7 @@ public class EscapeRoom {
         Scanner in = new Scanner(System.in);
         String[] validCommands = { "right", "left", "up", "down", "r", "l", "u", "d",
                 "jump", "jr", "jumpleft", "jl", "jumpup", "ju", "jumpdown", "jd",
-                "pickup", "p", "quit", "q", "replay", "help", "?" };
+                "pickup", "p", "scan", "quit", "q", "replay", "help", "?" };
 
         // set up game
         boolean play = true;
@@ -59,7 +59,141 @@ public class EscapeRoom {
             System.out.print("Enter command:");
             String input = UserInput.getValidInput(validCommands);
 
-            /* process user commands */
+
+            // Move right
+            if (input.equals("right") || input.equals("r")) {
+                px = m;
+                py = 0;
+                score += game.movePlayer(px, py);
+                if (game.isTrap(0, 0)) {
+                    score += game.springTrap(0, 0);
+                }
+            }
+
+            // Move left
+            else if (input.equals("left") || input.equals("l")) {
+                px = -m;
+                py = 0;
+                score += game.movePlayer(px, py);
+                if (game.isTrap(0, 0)) {
+                    score += game.springTrap(0, 0);
+                }
+            }
+
+            // Move up
+            else if (input.equals("up") || input.equals("u")) {
+                px = 0;
+                py = -m;
+                score += game.movePlayer(px, py);
+                if (game.isTrap(0, 0)) {
+                    score += game.springTrap(0, 0);
+                }
+            }
+
+            // Move down
+            else if (input.equals("down") || input.equals("d")) {
+                px = 0;
+                py = m;
+                score += game.movePlayer(px, py);
+                if (game.isTrap(0, 0)) {
+                    score += game.springTrap(0, 0);
+                }
+            }
+
+            // Jump right
+            else if (input.equals("jump") || input.equals("jr")) {
+                score += game.movePlayer(2 * m, 0);
+                if (game.isTrap(0, 0)) {
+                    score += game.springTrap(0, 0);
+                }
+            }
+
+            // Jump left
+            else if (input.equals("jumpleft") || input.equals("jl")) {
+                score += game.movePlayer(-2 * m, 0);
+                if (game.isTrap(0, 0)) {
+                    score += game.springTrap(0, 0);
+                }
+            }
+
+            // Jump up
+            else if (input.equals("jumpup") || input.equals("ju")) {
+                score += game.movePlayer(0, -2 * m);
+                if (game.isTrap(0, 0)) {
+                    score += game.springTrap(0, 0);
+                }
+            }
+
+            // Jump down
+            else if (input.equals("jumpdown") || input.equals("jd")) {
+                score += game.movePlayer(0, 2 * m);
+                if (game.isTrap(0, 0)) {
+                    score += game.springTrap(0, 0);
+                }
+            }
+
+            // Pick up prize/coin?
+            else if (input.equals("pickup") || input.equals("p")) {
+                score += game.pickupPrize();
+            }
+
+            // Replay game
+            else if (input.equals("replay")) {
+                System.out.println("Steps: " + game.getSteps());
+                score += game.replay();
+            }
+
+            // helpppppp meeee
+            else if (input.equals("help") || input.equals("?")) {
+                System.out.println("Valid commands: \"right\", \"left\", \"up\", \"down\", \"r\", \"l\", \"u\", \"d\",\n" +
+                        "                \"jump\", \"jr\", \"jumpleft\", \"jl\", \"jumpup\", \"ju\", \"jumpdown\", \"jd\",\n" +
+                        "                \"pickup\", \"p\", \"quit\", \"q\", \"replay\", \"help\", \"?\" ");
+                }
+
+            // Quit game
+            else if (input.equals("quit") || input.equals("q")) {
+                play = false;
+            }
+
+
+            else if (input.equals("scan")) {
+                System.out.println("Scanning for traps...");
+
+                boolean foundTrap = false;
+
+                if (game.isTrap(m, 0)) {
+                    System.out.println("Trap to the RIGHT!");
+                    foundTrap = true;
+                }
+
+                if (game.isTrap(-m, 0)) {
+                    System.out.println("Trap to the LEFT!");
+                    foundTrap = true;
+                }
+
+                if (game.isTrap(0, -m)) {
+                    System.out.println("Trap ABOVE you!");
+                    foundTrap = true;
+                }
+
+                if (game.isTrap(0, m)) {
+                    System.out.println("Trap BELOW you!");
+                    foundTrap = true;
+                }
+
+                if (!foundTrap) {
+                    System.out.println("No traps nearby!");
+                }
+            }
+
+            // Invalid command
+            else {
+                System.out.println("Invalid command!");
+                score--;
+            }
+
+            System.out.println("Current score: " + score);
+
 
             /* uncomment when user quits */
             // play = false;
@@ -67,7 +201,36 @@ public class EscapeRoom {
 
         score += game.endGame();
 
-        System.out.println("score=" + score);
+        System.out.println("Your score is: " + score);
+        System.out.println("Would you like to play Double or Nothing? (yes/no)");
+        String choice = in.nextLine();
+
+        if (choice.equals("yes")) {
+            System.out.println("JAVA TRIVIA!");
+            System.out.println("What data type is used to store true or false values?");
+            System.out.println("A. int");
+            System.out.println("B. boolean");
+            System.out.println("C. String");
+            System.out.println("D. double");
+
+            System.out.print("Your answer (A/B/C/D): ");
+            String answer = in.nextLine().toLowerCase();
+
+            if (answer.equals("b")) {
+                System.out.println("Correct! Your score is doubled!");
+                score = score * 2;
+            }
+            else {
+                System.out.println("Incorrect! Your score is now 0.");
+                score = 0;
+            }
+        }
+        else {
+            System.out.println("You kept your original score.");
+        }
+
+        System.out.println("Final score=" + score);
         System.out.println("steps=" + game.getSteps());
+
     }
 }
