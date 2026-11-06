@@ -11,6 +11,9 @@
       <sourceFolder url="file://$MODULE_DIR$/1.3.2" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Madlib (1.2.10)" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/1.3.4" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/1.3.5" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/1.3.7" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/1.4.1" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
